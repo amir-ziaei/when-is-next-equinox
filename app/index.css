@@ -1,0 +1,40 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background: url('/images/spring.jpg') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.wrapper {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.content {
+    text-align: center;
+    margin: 0 auto;
+    padding: 20px;
+    color: #fafafa;
+    display: flex;
+}
+
+.content h1 {
+    padding: 1.5rem 3rem;
+    background: rgba(43, 43, 43, 0.5);
+    margin: 0 1rem;
+    border-radius: 0.5rem;
+    font-size: 3rem;
+}
