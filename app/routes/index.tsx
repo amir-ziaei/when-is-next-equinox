@@ -32,7 +32,7 @@ const getNextEquinoxType = (currentYear: number, nextEquinoxDateStr: string, isN
 const ENDPOINT = 'http://ip-api.com/json'
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const clientIPAddr = getClientIPAddress(request) || '78.61.32.30';
+  const clientIPAddr = getClientIPAddress(request);
   const response = await fetch(`${ENDPOINT}/${clientIPAddr}`);
   const data = await response.json();
   const {timezone: timeZone, lat, country} = data;
@@ -44,14 +44,19 @@ export const loader: LoaderFunction = async ({ request }) => {
   const diffBetweenEquinoxAndNow = new Date(`${currentYear}-${nextEquinoxDateStr} UTC`).getTime() - now;
   const isNorthenHemisphere = lat > 0;
   const nextEquinoxType = getNextEquinoxType(currentYear, nextEquinoxDateStr, isNorthenHemisphere);
-
+  
   return json({country, nextEquinoxType, diffBetweenEquinoxAndNow});
 }
 
 export default function Index() {
-  const data = useLoaderData();
-  console.log(data);
-  const [time, setTime] = React.useState(data.diffBetweenEquinoxAndNow);
+  const {
+    country,
+    timeZone,
+    nextEquinoxType,
+    diffBetweenEquinoxAndNow,
+  } = useLoaderData();
+
+  const [time, setTime] = React.useState(diffBetweenEquinoxAndNow);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -60,22 +65,42 @@ export default function Index() {
     return () => clearInterval(interval);
   }, [time]);
 
-  const counterValues = [
+  const [days, hours, minutes, seconds]  = [
     Math.floor(time / 1000 / 60 / 60 / 24),
     Math.floor(time / 1000 / 60 / 60 % 24),
     Math.floor(time / 1000 / 60 % 60),
     Math.floor(time / 1000 % 60),
   ].map((t) => t < 10 ? `0${t}` : `${t}`);
 
-  const [days, hours, minutes, seconds] = counterValues;
-
   return (
-    <div className='wrapper'>
-      <div className='content'>
-        <h1>{days} days</h1>
-        <h1>{hours} hours</h1>
-        <h1>{minutes} minutes</h1>
-        <h1>{seconds} seconds</h1>
+    <div className={`background background--${nextEquinoxType.toLowerCase()}`}>
+      <div className='wrapper'>
+        <div className='content'>
+          <h1 className='hidden'>
+              When is the next equinox?
+          </h1>
+          <section>
+            <h2 className='glass font-xl'>
+              {nextEquinoxType} equinox is in:
+            </h2>
+          </section>
+          <section className="flex">
+            <div className='glass'>{days} days</div>
+            <div className='glass'>{hours} hours</div>
+            <div className='glass'>{minutes} minutes</div>
+            <div className='glass'>{seconds} seconds</div>
+          </section>
+          <section>
+            <div className='full-width glass glass--narrow meta'>
+              <span>
+                {country}
+              </span>
+              <span>
+                {timeZone}
+              </span>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
   );
