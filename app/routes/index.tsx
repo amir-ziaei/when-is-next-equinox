@@ -35,7 +35,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const clientIPAddr = getClientIPAddress(request);
   const response = await fetch(`${ENDPOINT}/${clientIPAddr}`);
   const data = await response.json();
-  const {timezone: timeZone, lat, country} = data;
+  const {timezone: timeZone, lat, country, city} = data;
 
   const zonedDate = new Date(new Date().toLocaleString("en-US", { timeZone }));
   const now = zonedDate.getTime();
@@ -45,12 +45,19 @@ export const loader: LoaderFunction = async ({ request }) => {
   const isNorthenHemisphere = lat > 0;
   const nextEquinoxType = getNextEquinoxType(currentYear, nextEquinoxDateStr, isNorthenHemisphere);
   
-  return json({country, nextEquinoxType, diffBetweenEquinoxAndNow});
+  return json({
+    country,
+    city,
+    timeZone,
+    nextEquinoxType,
+    diffBetweenEquinoxAndNow,
+  });
 }
 
 export default function Index() {
   const {
     country,
+    city,
     timeZone,
     nextEquinoxType,
     diffBetweenEquinoxAndNow,
@@ -93,7 +100,7 @@ export default function Index() {
           <section>
             <div className='full-width glass glass--narrow meta'>
               <span>
-                {country}
+                {city}, {country}
               </span>
               <span>
                 {timeZone}
