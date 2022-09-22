@@ -1,10 +1,4 @@
-import * as React from 'react'
-
-import styles from '../index.css'
-
-export function links() {
-  return [{ rel: 'stylesheet', href: styles }]
-}
+// import * as React from 'react'
 
 // const equinox: { [key: number]: [string, string] } = {
 //   2022: ['03-20  15:33', '09-23  01:04'],
@@ -80,7 +74,7 @@ export default function Index() {
   //   Math.floor((time / 1000) % 60),
   // ].map(t => (t < 10 ? `0${t}` : `${t}`))
 
-  return 'Hello World'
+  return <h1 className="text-3xl font-bold underline">Hello world!</h1>
 
   // return (
   //   <div className={`background background--${nextEquinoxType.toLowerCase()}`}>
