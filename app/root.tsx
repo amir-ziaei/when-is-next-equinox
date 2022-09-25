@@ -9,7 +9,9 @@ import {
   ScrollRestoration,
 } from '@remix-run/react'
 
+import { BgCopyright } from './components/copyright'
 import styles from '~/styles/app.css'
+import { ErrorPage } from './components/errors'
 
 export function links() {
   return [{ rel: 'stylesheet', href: styles }]
@@ -28,9 +30,10 @@ function App({ children }: { children: React.ReactElement | null }) {
         <Meta />
         <Links />
       </head>
-      <body className="h-screen bg-[#403583] bg-[linear-gradient(140deg,_#1A628A,_#FFFEFF_100%)] bg-fixed bg-no-repeat">
+      <body className="h-screen bg-[url('/bg.jpg')] bg-cover bg-fixed bg-center bg-no-repeat text-slate-100">
         <main className="flex h-full flex-col items-center justify-center overflow-hidden">
           {children}
+          <BgCopyright />
         </main>
         <ScrollRestoration />
         <Scripts />
@@ -51,10 +54,9 @@ export default function AppWithOutlet() {
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <App>
-      <>
-        <span className="mb-4 text-8xl">😥</span>
-        <h1 className="text-5xl">Something went wrong!</h1>
-      </>
+      <ErrorPage>
+        <p className="text-lg">Something went wrong!</p>
+      </ErrorPage>
     </App>
   )
 }

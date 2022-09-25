@@ -5,6 +5,7 @@ import { useLoaderData } from '@remix-run/react'
 import { getNextEquinox, getPreviousEquinox } from '~/utils/equinox'
 import { getDatesDiffInDays } from '~/utils/date'
 import { CircularProgress } from '~/components/progress'
+import { ErrorPage } from '~/components/errors'
 
 export function loader() {
   const nextEquinox = getNextEquinox()
@@ -77,9 +78,8 @@ export default function Index() {
 
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
-    <div>
-      <h1 className="mb-4 text-6xl">Oh no ☹️</h1>
-      <p className="text-xl">{error.message}</p>
-    </div>
+    <ErrorPage>
+      <p className="text-lg">{error.message}</p>
+    </ErrorPage>
   )
 }
