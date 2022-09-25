@@ -45,7 +45,7 @@ export default function Index() {
   ].map(t => (t < 10 ? `0${t}` : `${t}`))
 
   return (
-    <div className="flex gap-5">
+    <div className="flex flex-col-reverse gap-5 sm:flex-row">
       {[
         {
           label: 'days',
