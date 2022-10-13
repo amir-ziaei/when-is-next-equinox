@@ -25,16 +25,16 @@ export const meta: MetaFunction = () => ({
 
 function App({ children }: { children: React.ReactElement | null }) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full overflow-hidden">
       <head>
         <Meta />
         <Links />
       </head>
-      <body className="h-screen bg-[url('/bg.jpg')] bg-cover bg-fixed bg-center bg-no-repeat text-slate-100">
+      <body className="h-full bg-[url('/bg.jpg')] bg-cover bg-fixed bg-center bg-no-repeat text-slate-100">
         <main className="flex h-full flex-col items-center justify-center overflow-hidden">
           {children}
-          <BgCopyright />
         </main>
+        <BgCopyright />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
